@@ -26,43 +26,36 @@ namespace SaglikTakip
             }
         }
 
-        private string connectionString = "Server=MONSTER\\SQLEXPRESS;Database=SaglikTakip;Trusted_Connection=True;";
-
         private void Raporekleform_Load(object sender, EventArgs e)
         {
             lblTarih.Text = " ";
             lblKilo.Text = " ";
-            lblNabiz.Text = " ";    
+            lblNabiz.Text = " ";
             lblNot.Text = " ";
             lblEgzersiz.Text = " ";
             lblSure.Text = " ";
             lblTekrar.Text = " ";
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             KullaniciListesiGetir();
-
         }
 
         private void KullaniciListesiGetir()
         {
-            using (var conn = new SqlConnection(connectionString))
+            string query = "SELECT Id, Ad, Yas, Cinsiyet FROM Kullanicilar";
+            DataTable dt = databaseHelper.ExecuteQuery(query);
+
+            comboBox1.Items.Clear();
+
+            foreach (DataRow row in dt.Rows)
             {
-                conn.Open();
-                var cmd = new SqlCommand("SELECT Id, Ad, Yas, Cinsiyet FROM Kullanicilar", conn);
-                var reader = cmd.ExecuteReader();
-
-                comboBox1.Items.Clear();
-
-                while (reader.Read())
+                Kullanici kullanici = new Kullanici
                 {
-                    Kullanici kullanici = new Kullanici
-                    {
-                        Id = Convert.ToInt32(reader["Id"]),
-                        Ad = reader["Ad"].ToString(),
-                        Yas = Convert.ToInt32(reader["Yas"]),
-                        Cinsiyet = reader["Cinsiyet"].ToString()
-                    };
-                    comboBox1.Items.Add(kullanici);
-                }
+                    Id = Convert.ToInt32(row["Id"]),
+                    Ad = row["Ad"].ToString(),
+                    Yas = Convert.ToInt32(row["Yas"]),
+                    Cinsiyet = row["Cinsiyet"].ToString()
+                };
+                comboBox1.Items.Add(kullanici);
             }
         }
 
@@ -81,78 +74,63 @@ namespace SaglikTakip
 
         private void SaglikKayitlariniGetir(int kullaniciId)
         {
-            using (var conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                var da = new SqlDataAdapter("SELECT Tarih, Kilo, Nabiz, Notlar FROM SaglikKayitlari WHERE KullaniciId = @id", conn);
-                da.SelectCommand.Parameters.AddWithValue("@id", kullaniciId);
+            string query = "SELECT Tarih, Kilo, Nabiz, Notlar FROM SaglikKayitlari WHERE KullaniciId = @id";
+            SqlParameter[] parameters = {
+                new SqlParameter("@id", kullaniciId)
+            };
 
-                var dt = new DataTable();
-                da.Fill(dt);
-                dataSaglikKaydi.DataSource = dt;
-            }
+            DataTable dt = databaseHelper.ExecuteQuery(query, parameters);
+            dataSaglikKaydi.DataSource = dt;
         }
 
         private void EgzersizKayitlariniGetir(int kullaniciId)
         {
-            using (var conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                var da = new SqlDataAdapter("SELECT EgzersizAdi, SureDakika, TekrarSayisi FROM Egzersizler WHERE KullaniciId = @id", conn);
-                da.SelectCommand.Parameters.AddWithValue("@id", kullaniciId);
+            string query = "SELECT EgzersizAdi, SureDakika, TekrarSayisi FROM Egzersizler WHERE KullaniciId = @id";
+            SqlParameter[] parameters = {
+                new SqlParameter("@id", kullaniciId)
+            };
 
-                var dt = new DataTable();
-                da.Fill(dt);
-                dataSporKaydi.DataSource = dt;
-            }
+            DataTable dt = databaseHelper.ExecuteQuery(query, parameters);
+            dataSporKaydi.DataSource = dt;
         }
 
         private void LabelVerileriniAktar(int kullaniciId)
         {
-            // Sağlık kaydı verilerini aktar
-            using (var conn = new SqlConnection(connectionString))
+            // Sağlık kaydı verilerini al
+            string saglikQuery = "SELECT TOP 1 [Tarih], [Kilo], [Nabiz], [Notlar] FROM [SaglikKayitlari] WHERE [KullaniciId] = @id ORDER BY [Tarih] DESC";
+            SqlParameter[] parameters = {
+                new SqlParameter("@id", kullaniciId)
+            };
+
+            DataTable dtSaglik = databaseHelper.ExecuteQuery(saglikQuery, parameters);
+
+            if (dtSaglik.Rows.Count > 0)
             {
-                conn.Open();
-                var cmd = new SqlCommand("SELECT TOP 1 [Tarih], [Kilo], [Nabiz], [Notlar] FROM [SaglikKayitlari] WHERE [KullaniciId] = @id ORDER BY [Tarih] DESC", conn);
-                cmd.Parameters.AddWithValue("@id", kullaniciId);
-                var reader = cmd.ExecuteReader();
-
-                if (reader.Read())
-                {
-                    lblKilo.Text = reader["Kilo"] != DBNull.Value ? reader["Kilo"].ToString() : "—";
-                    lblNabiz.Text = reader["Nabiz"] != DBNull.Value ? reader["Nabiz"].ToString() : "—";
-                    lblNot.Text = reader["Notlar"] != DBNull.Value ? reader["Notlar"].ToString() : "—";
-
-                    if (reader["Tarih"] != DBNull.Value)
-                        lblTarih.Text = Convert.ToDateTime(reader["Tarih"]).ToString("dd MMMM yyyy");
-                    else
-                        lblTarih.Text = "—";
-                }
-                else
-                {
-                    // Hiç kayıt yoksa
-                    lblKilo.Text = lblNabiz.Text = lblNot.Text = lblTarih.Text = "—";
-                }
+                DataRow row = dtSaglik.Rows[0];
+                lblKilo.Text = row["Kilo"] != DBNull.Value ? row["Kilo"].ToString() : "—";
+                lblNabiz.Text = row["Nabiz"] != DBNull.Value ? row["Nabiz"].ToString() : "—";
+                lblNot.Text = row["Notlar"] != DBNull.Value ? row["Notlar"].ToString() : "—";
+                lblTarih.Text = row["Tarih"] != DBNull.Value ? Convert.ToDateTime(row["Tarih"]).ToString("dd MMMM yyyy") : "—";
+            }
+            else
+            {
+                lblKilo.Text = lblNabiz.Text = lblNot.Text = lblTarih.Text = "—";
             }
 
-            // Spor kaydı verilerini aktar
-            using (var conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                var cmd = new SqlCommand("SELECT TOP 1 EgzersizAdi, SureDakika, TekrarSayisi FROM Egzersizler WHERE KullaniciId = @id ", conn);
-                cmd.Parameters.AddWithValue("@id", kullaniciId);
-                var reader = cmd.ExecuteReader();
+            // Egzersiz kaydı verilerini al
+            string egzersizQuery = "SELECT TOP 1 EgzersizAdi, SureDakika, TekrarSayisi FROM Egzersizler WHERE KullaniciId = @id";
+            DataTable dtEgzersiz = databaseHelper.ExecuteQuery(egzersizQuery, parameters);
 
-                if (reader.Read())
-                {
-                    lblEgzersiz.Text = reader["EgzersizAdi"] != DBNull.Value ? reader["EgzersizAdi"].ToString() : "—";
-                    lblSure.Text = reader["SureDakika"] != DBNull.Value ? reader["SureDakika"].ToString() : "—";
-                    lblTekrar.Text = reader["TekrarSayisi"] != DBNull.Value ? reader["TekrarSayisi"].ToString() : "—";
-                }
-                else
-                {
-                    lblEgzersiz.Text = lblSure.Text = lblTekrar.Text = "—";
-                }
+            if (dtEgzersiz.Rows.Count > 0)
+            {
+                DataRow row = dtEgzersiz.Rows[0];
+                lblEgzersiz.Text = row["EgzersizAdi"] != DBNull.Value ? row["EgzersizAdi"].ToString() : "—";
+                lblSure.Text = row["SureDakika"] != DBNull.Value ? row["SureDakika"].ToString() : "—";
+                lblTekrar.Text = row["TekrarSayisi"] != DBNull.Value ? row["TekrarSayisi"].ToString() : "—";
+            }
+            else
+            {
+                lblEgzersiz.Text = lblSure.Text = lblTekrar.Text = "—";
             }
         }
 

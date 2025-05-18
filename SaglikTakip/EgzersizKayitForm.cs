@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
+using System.Data.SqlClient; // SqlParameter için gerekli
 
 namespace SaglikTakip
 {
@@ -34,28 +34,22 @@ namespace SaglikTakip
 
         private void KullaniciListesiGetir()
         {
-            string connectionString = "Server=MONSTER\\SQLEXPRESS;Database=SaglikTakip;Trusted_Connection=True;";
+            string query = "SELECT Id, Ad, Yas, Cinsiyet FROM Kullanicilar";
+            DataTable dt = databaseHelper.ExecuteQuery(query); // küçük harfle çağırıldı
 
-            using (var conn = new SqlConnection(connectionString))
+            comboBox1.Items.Clear();
+
+            foreach (DataRow row in dt.Rows)
             {
-                conn.Open();
-                var cmd = new SqlCommand("SELECT Id, Ad, Yas, Cinsiyet FROM Kullanicilar", conn);
-                var reader = cmd.ExecuteReader();
-
-                comboBox1.Items.Clear();
-
-                while (reader.Read())
+                Kullanici kullanici = new Kullanici
                 {
-                    Kullanici kullanici = new Kullanici
-                    {
-                        Id = Convert.ToInt32(reader["Id"]),
-                        Ad = reader["Ad"].ToString(),
-                        Yas = Convert.ToInt32(reader["Yas"]),
-                        Cinsiyet = reader["Cinsiyet"].ToString()
-                    };
+                    Id = Convert.ToInt32(row["Id"]),
+                    Ad = row["Ad"].ToString(),
+                    Yas = Convert.ToInt32(row["Yas"]),
+                    Cinsiyet = row["Cinsiyet"].ToString()
+                };
 
-                    comboBox1.Items.Add(kullanici);
-                }
+                comboBox1.Items.Add(kullanici);
             }
         }
 
@@ -79,27 +73,25 @@ namespace SaglikTakip
             int sure = (int)numericUpDown1.Value;
             int tekrar = (int)numericUpDown2.Value;
 
-            string connectionString = "Server=MONSTER\\SQLEXPRESS;Database=SaglikTakip;Trusted_Connection=True;";
-
-            using (var conn = new SqlConnection(connectionString))
+            string query = "INSERT INTO Egzersizler (KullaniciId, EgzersizAdi, SureDakika, TekrarSayisi) VALUES (@kullaniciId, @ad, @sure, @tekrar)";
+            SqlParameter[] parameters = new SqlParameter[]
             {
-                conn.Open();
-                var cmd = new SqlCommand("INSERT INTO Egzersizler (KullaniciId, EgzersizAdi, SureDakika, TekrarSayisi) VALUES (@kullaniciId, @ad, @sure, @tekrar)", conn);
-                cmd.Parameters.AddWithValue("@kullaniciId", kullaniciId);
-                cmd.Parameters.AddWithValue("@ad", ad);
-                cmd.Parameters.AddWithValue("@sure", sure);
-                cmd.Parameters.AddWithValue("@tekrar", tekrar);
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("Egzersiz kaydedildi.");
+                new SqlParameter("@kullaniciId", kullaniciId),
+                new SqlParameter("@ad", ad),
+                new SqlParameter("@sure", sure),
+                new SqlParameter("@tekrar", tekrar)
+            };
 
-                // Form temizleme
-                textBox1.Clear();
-                numericUpDown1.Value = 0;
-                numericUpDown2.Value = 0;
-                comboBox1.SelectedIndex = -1;
-            }
+            databaseHelper.ExecuteNonQuery(query, parameters); // küçük harfle çağırıldı
+
+            MessageBox.Show("Egzersiz kaydedildi.");
+
+            // Form temizleme
+            textBox1.Clear();
+            numericUpDown1.Value = 0;
+            numericUpDown2.Value = 0;
+            comboBox1.SelectedIndex = -1;
         }
-
 
         private void EgzersizKayitForm_Load_1(object sender, EventArgs e)
         {

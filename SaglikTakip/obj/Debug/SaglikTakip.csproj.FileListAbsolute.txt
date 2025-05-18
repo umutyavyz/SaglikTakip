@@ -50,3 +50,29 @@ C:\Users\umuty\OneDrive\Masaüstü\yeni projeler ayberk\SaglikTakip\SaglikTakip\
 C:\Users\umuty\OneDrive\Masaüstü\yeni projeler ayberk\SaglikTakip\SaglikTakip\obj\Debug\SaglikTa.9DCA0C25.Up2Date
 C:\Users\umuty\OneDrive\Masaüstü\yeni projeler ayberk\SaglikTakip\SaglikTakip\obj\Debug\SaglikTakip.exe
 C:\Users\umuty\OneDrive\Masaüstü\yeni projeler ayberk\SaglikTakip\SaglikTakip\obj\Debug\SaglikTakip.pdb
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\bin\Debug\SaglikTakip.exe.config
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\bin\Debug\SaglikTakip.exe
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\bin\Debug\SaglikTakip.pdb
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\bin\Debug\Microsoft.Data.Sqlite.dll
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\bin\Debug\SQLitePCLRaw.core.dll
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\bin\Debug\System.Buffers.dll
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\bin\Debug\System.Memory.dll
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\bin\Debug\Microsoft.Data.Sqlite.xml
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\bin\Debug\System.Buffers.xml
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\bin\Debug\System.Memory.xml
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\obj\Debug\SaglikTakip.csproj.AssemblyReference.cache
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\obj\Debug\SaglikTakip.EgzersizKayitForm.resources
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\obj\Debug\SaglikTakip.Form1.resources
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\obj\Debug\SaglikTakip.KullaniciEkleForm.resources
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\obj\Debug\SaglikTakip.Properties.Resources.resources
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\obj\Debug\SaglikTakip.Raporekleform.resources
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\obj\Debug\SaglikTakip.SaglikKayitForm.resources
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\obj\Debug\SaglikTakip.csproj.GenerateResource.cache
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\obj\Debug\SaglikTakip.csproj.CoreCompileInputs.cache
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\obj\Debug\SaglikTa.9DCA0C25.Up2Date
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\obj\Debug\SaglikTakip.exe
+C:\Users\umuty\OneDrive\Belgeler\GitHub\SaglikTakip\SaglikTakip\obj\Debug\SaglikTakip.pdb

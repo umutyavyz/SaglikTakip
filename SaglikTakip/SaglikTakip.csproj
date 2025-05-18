@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="databaseHelper.cs" />
     <Compile Include="Egzersiz.cs" />
     <Compile Include="EgzersizKayitForm.cs">
       <SubType>Form</SubType>

@@ -44,24 +44,23 @@ namespace SaglikTakip
                 return;
             }
 
-            // MSSQL bağlantısı için SqlConnection kullanılıyor
-            string connectionString = "Server=MONSTER\\SQLEXPRESS;Database=SaglikTakip;Trusted_Connection=True;";
-
-            using (var conn = new SqlConnection(connectionString))
+            // Sorgu ve parametrelerle birlikte databaseHelper kullanımı
+            string query = "INSERT INTO Kullanicilar (Ad, Yas, Cinsiyet) VALUES (@ad, @yas, @cinsiyet)";
+            SqlParameter[] parameters = new SqlParameter[]
             {
-                conn.Open();
-                var cmd = new SqlCommand("INSERT INTO Kullanicilar (Ad, Yas, Cinsiyet) VALUES (@ad, @yas, @cinsiyet)", conn);
-                cmd.Parameters.AddWithValue("@ad", ad);
-                cmd.Parameters.AddWithValue("@yas", yas);
-                cmd.Parameters.AddWithValue("@cinsiyet", cinsiyet);
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("Kullanıcı kaydedildi.");
+                new SqlParameter("@ad", ad),
+                new SqlParameter("@yas", yas),
+                new SqlParameter("@cinsiyet", cinsiyet)
+            };
 
-                // Formu temizleyelim
-                textBoxad.Text = "Ad";
-                textBoxyas.Text = "Yaş";
-                comboBoxcins.Text = "Cinsiyet";
-            }
+            databaseHelper.ExecuteNonQuery(query, parameters);
+
+            MessageBox.Show("Kullanıcı kaydedildi.");
+
+            // Formu temizleyelim
+            textBoxad.Text = "Ad";
+            textBoxyas.Text = "Yaş";
+            comboBoxcins.Text = "Cinsiyet";
         }
 
         private void btnkapat_Click(object sender, EventArgs e)

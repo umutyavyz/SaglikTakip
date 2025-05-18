@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 
@@ -18,7 +12,7 @@ namespace SaglikTakip
             InitializeComponent();
         }
 
-        // Kullanici sınıfı
+        // Kullanıcı sınıfı
         public class Kullanici
         {
             public int Id { get; set; }
@@ -34,27 +28,21 @@ namespace SaglikTakip
 
         private void KullaniciListesiGetir()
         {
-            string connectionString = "Server=MONSTER\\SQLEXPRESS;Database=SaglikTakip;Trusted_Connection=True;";
+            string query = "SELECT Id, Ad, Yas, Cinsiyet FROM Kullanicilar";
+            DataTable dt = databaseHelper.ExecuteQuery(query);
 
-            using (var conn = new SqlConnection(connectionString))
+            comboBox1.Items.Clear();
+
+            foreach (DataRow row in dt.Rows)
             {
-                conn.Open();
-                var cmd = new SqlCommand("SELECT Id, Ad, Yas, Cinsiyet FROM Kullanicilar", conn);
-                var reader = cmd.ExecuteReader();
-
-                comboBox1.Items.Clear();
-
-                while (reader.Read())
+                Kullanici kullanici = new Kullanici
                 {
-                    Kullanici kullanici = new Kullanici
-                    {
-                        Id = Convert.ToInt32(reader["Id"]),
-                        Ad = reader["Ad"].ToString(),
-                        Yas = Convert.ToInt32(reader["Yas"]),
-                        Cinsiyet = reader["Cinsiyet"].ToString()
-                    };
-                    comboBox1.Items.Add(kullanici);
-                }
+                    Id = Convert.ToInt32(row["Id"]),
+                    Ad = row["Ad"].ToString(),
+                    Yas = Convert.ToInt32(row["Yas"]),
+                    Cinsiyet = row["Cinsiyet"].ToString()
+                };
+                comboBox1.Items.Add(kullanici);
             }
         }
 
@@ -73,20 +61,22 @@ namespace SaglikTakip
             int nabiz = (int)numericUpDown2.Value;
             string not = textBox1.Text;
 
-            string connectionString = "Server=MONSTER\\SQLEXPRESS;Database=SaglikTakip;Trusted_Connection=True;";
+            string query = "INSERT INTO SaglikKayitlari (KullaniciId, Tarih, Kilo, Nabiz, Notlar) VALUES (@kullaniciId, @tarih, @kilo, @nabiz, @not)";
 
-            using (var conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                var cmd = new SqlCommand("INSERT INTO SaglikKayitlari (KullaniciId, Tarih, Kilo, Nabiz, Notlar) VALUES (@kullaniciId, @tarih, @kilo, @nabiz, @not)", conn);
-                cmd.Parameters.AddWithValue("@kullaniciId", kullaniciId);
-                cmd.Parameters.AddWithValue("@tarih", tarih);
-                cmd.Parameters.AddWithValue("@kilo", kilo);
-                cmd.Parameters.AddWithValue("@nabiz", nabiz);
-                cmd.Parameters.AddWithValue("@not", not);
-                cmd.ExecuteNonQuery();
+            SqlParameter[] parameters = {
+                new SqlParameter("@kullaniciId", kullaniciId),
+                new SqlParameter("@tarih", tarih),
+                new SqlParameter("@kilo", kilo),
+                new SqlParameter("@nabiz", nabiz),
+                new SqlParameter("@not", not)
+            };
+
+            int sonuc = databaseHelper.ExecuteNonQuery(query, parameters);
+
+            if (sonuc > 0)
                 MessageBox.Show("Sağlık kaydı eklendi.");
-            }
+            else
+                MessageBox.Show("Kayıt eklenirken bir hata oluştu.");
         }
 
         private void SaglikKayitForm_Load(object sender, EventArgs e)
