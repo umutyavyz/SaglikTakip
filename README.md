@@ -69,13 +69,20 @@ Rapor 2 bölümde sunulur:
 
 ## 🖼️ Ekran Görüntüleri
 
-| Ekran                    | Görsel Yolu                        |
-|--------------------------|-------------------------------------|
-| Ana Sayfa                | `screenshots/anasayfa.png`         |
-| Kullanıcı (Hasta) Ekle   | `screenshots/hasta_ekle.png`       |
-| Sağlık Bilgileri Ekle    | `screenshots/hasta_bilgileri.png`  |
-| Egzersiz Ekle            | `screenshots/spor_ekle.png`        |
-| Rapor Görüntüle          | `screenshots/rapor.png`            |
+### Ana Sayfa
+![Ana Sayfa](screenshots/anasayfa.png)
+
+### Kullanıcı (Hasta) Ekle
+![Hasta Ekle](screenshots/hasta_ekle.png)
+
+### Sağlık Bilgileri Ekle
+![Hasta Bilgileri](screenshots/hasta_bilgileri.png)
+
+### Egzersiz Ekle
+![Spor Ekle](screenshots/spor_ekle.png)
+
+### Rapor Görüntüle
+![Rapor](screenshots/rapor.png)
 
 ## 🗂️ Proje Hakkında
 
